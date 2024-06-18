@@ -152,6 +152,36 @@ app.get("/api/pacientes/:idPaciente", async (req, res) => {
     res.status(500).send("Error en el servidor");
   }
 });
+//Obtener los Tipos de Identificación
+app.get('/api/tipo_id', async (req, res) => {
+  try {
+    const procedureName = 'GENERAL.SSP_GETTIPOSIDENTIFICACION'; // Replace with your stored procedure name
+    console.log(`Executing stored procedure: ${procedureName}`);
+    const result = await pool.request()
+     .execute(procedureName);
+    console.log(`Stored procedure result: ${JSON.stringify(result)}`);
+    res.json(result);
+  } catch (error) {
+    console.error(`Error executing stored procedure: ${error.message}`);
+    console.error(error.stack);
+    res.status(500).send('Error en el Servidor');
+  }
+});
+
+app.get('/api/getSexoSelect', async (req, res) => {
+  try {
+    const procedureName = 'GENERAL.SSP_GETSEXOPACIENTE'; // Replace with your stored procedure name
+    console.log(`Executing stored procedure: ${procedureName}`);
+    const result = await pool.request()
+     .execute(procedureName);
+    console.log(`Stored procedure result: ${JSON.stringify(result)}`);
+    res.json(result);
+  } catch (error) {
+    console.error(`Error executing stored procedure: ${error.message}`);
+    console.error(error.stack);
+    res.status(500).send('Error en el Servidor');
+  }
+});
 
 app.listen(port, () => {
   console.log(`Servidor ejecutándose en http://localhost:${port}`);
