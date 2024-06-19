@@ -1,12 +1,10 @@
-// backend/server.js
-require("dotenv").config();
+require('dotenv').config()
 const express = require("express");
 const sql = require("mssql");
 const cors = require("cors");
 
 const app = express();
-const port = process.env.PORT || 81;
-
+const port = process.env.REACT_APP_PORT || 81;
 app.use(cors());
 app.use(express.json());
 
@@ -46,69 +44,58 @@ app.get("/api/pacientes/buscaTodo", async (req, res) => {
 });
 
 app.post("/api/pacientes/insertarPaciente", async (req, res) => {
-  const {
-    INIDPACIENTE,
-    INIDTIPOIDENTIFICACION,
-    INNUMEROIDENTIFICACION,
-    INFECHANACIMIENTO,
-    INNOMBRE1,
-    INNOMBRE2,
-    INAPELLIDO1,
-    INAPELLIDO2,
-    INIDSEXO,
-    INIDENTIDAD,
-    INIDPLAN,
-    INACTIVO,
-    IND0,
-    IND1,
-    IND2,
-    IND3,
-    IND4,
-    IND5,
-    IND6,
-    IND7,
-    IND8,
-    IND9,
-  } = req.query;
+  // const {
+  //   IdTipoIden,
+  //   numeroID,
+  //   primerApellido,
+  //   segundoApellido,
+  //   primerNombre,
+  //   segundoNombre,
+  //   edad,
+  //   fechaNacimiento,
+  //   sexo
+  // } = req.query;
 
   // Convertir y validar tipos de datos
-  const idPaciente = parseInt(INIDPACIENTE) || 0;
-  const idTipoIdentificacion = parseInt(INIDTIPOIDENTIFICACION) || 0;
-  const idSexo = parseInt(INIDSEXO) || 0;
-  const identidad = parseInt(INIDENTIDAD) || 0;
-  const idPlan = parseInt(INIDPLAN) || 0;
-  const activo = INACTIVO ? 1 : 0;
-
+  const idPaciente = parseInt(req.body.numeroID) || 0;
+  const idTipoIdentificacion = parseInt(req.body.IdTipoIden) || 0;
+  const idSexo = parseInt(req.body.sexo) || 0;
+  const identidad =  0;
+  const idPlan = 0;
+  const activo = 1;
+  console.log(`Executing stored procedure: INSERTA PACIENTE`);
+  console.log(req.body.fechaNacimiento);
+  console.log(req.body.IdTipoIden);
   try {
-    await pool
+    const result = await pool
       .request()
       .input("INIDPACIENTE", sql.Int, idPaciente)
       .input("INIDTIPOIDENTIFICACION", sql.SmallInt, idTipoIdentificacion)
-      .input("INNUMEROIDENTIFICACION", sql.VarChar(20), INNUMEROIDENTIFICACION || "")
-      .input("INFECHANACIMIENTO", sql.DateTime, INFECHANACIMIENTO ? new Date(INFECHANACIMIENTO) : null)
-      .input("INNOMBRE1", sql.VarChar(50), INNOMBRE1 || "")
-      .input("INNOMBRE2", sql.VarChar(50), INNOMBRE2 || "")
-      .input("INAPELLIDO1", sql.VarChar(50), INAPELLIDO1 || "")
-      .input("INAPELLIDO2", sql.VarChar(50), INAPELLIDO2 || "")
+      .input("INNUMEROIDENTIFICACION", sql.VarChar(20), identidad || "")
+      .input("INFECHANACIMIENTO", sql.DateTime, req.body.fechaNacimiento ? new Date(req.body.fechaNacimiento) : null)
+      .input("INNOMBRE1", sql.VarChar(50), req.body.primerNombre || "")
+      .input("INNOMBRE2", sql.VarChar(50), req.body.segundoNombre || "")
+      .input("INAPELLIDO1", sql.VarChar(50), req.body.primerApellido || "")
+      .input("INAPELLIDO2", sql.VarChar(50), req.body.segundoApellido || "")
       .input("INIDSEXO", sql.SmallInt, idSexo)
       .input("INIDENTIDAD", sql.Int, identidad)
       .input("INIDPLAN", sql.Int, idPlan)
       .input("INACTIVO", sql.Bit, activo)
-      .input("IND0", sql.VarChar(sql.MAX), IND0 || "")
-      .input("IND1", sql.VarChar(sql.MAX), IND1 || "")
-      .input("IND2", sql.VarChar(sql.MAX), IND2 || "")
-      .input("IND3", sql.VarChar(sql.MAX), IND3 || "")
-      .input("IND4", sql.VarChar(sql.MAX), IND4 || "")
-      .input("IND5", sql.VarChar(sql.MAX), IND5 || "")
-      .input("IND6", sql.VarChar(sql.MAX), IND6 || "")
-      .input("IND7", sql.VarChar(sql.MAX), IND7 || "")
-      .input("IND8", sql.VarChar(sql.MAX), IND8 || "")
-      .input("IND9", sql.VarChar(sql.MAX), IND9 || "")
+      .input("IND0", sql.VarChar(sql.MAX), "")
+      .input("IND1", sql.VarChar(sql.MAX), "")
+      .input("IND2", sql.VarChar(sql.MAX), "")
+      .input("IND3", sql.VarChar(sql.MAX), "")
+      .input("IND4", sql.VarChar(sql.MAX), "")
+      .input("IND5", sql.VarChar(sql.MAX), "")
+      .input("IND6", sql.VarChar(sql.MAX), "")
+      .input("IND7", sql.VarChar(sql.MAX), "")
+      .input("IND8", sql.VarChar(sql.MAX), "")
+      .input("IND9", sql.VarChar(sql.MAX), "")
       .output("MENSAJE", sql.VarChar(200))
       .output("ULTIMO", sql.Int)
       .execute("GENERAL.SSP_INSPACIENTE");
 
-    res.status(201).send("Se ha guardado el Paciente/Donante");
+    res.status(200).send(result);
   } catch (err) {
     console.error("Error al insertar:", err);
     res.status(500).send("Error en el servidor");
@@ -180,6 +167,21 @@ app.get('/api/getSexoSelect', async (req, res) => {
     console.error(`Error executing stored procedure: ${error.message}`);
     console.error(error.stack);
     res.status(500).send('Error en el Servidor');
+  }
+});
+
+app.get('/api/getDimensionesPaciente', async (req, res) => {
+  try {
+    const procedureName = 'GENERAL.SSP_GETDIMENSIONESPACIENTE'; // Replace with your stored procedure name
+    console.log(`Executing stored procedure: ${procedureName}`);
+    const result = await pool.request()
+     .execute(procedureName);
+    console.log(`Stored procedure result: ${JSON.stringify(result)}`);
+    res.json(result);
+  } catch (error) {
+    console.error(`Error executing stored procedure: ${error.message}`);
+    console.error(error.stack);
+    res.status(500).send('Error en el Servidor '+error.stack);
   }
 });
 
