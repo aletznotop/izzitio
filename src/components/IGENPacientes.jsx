@@ -32,7 +32,6 @@ const IGENPacientes = () => {
     // Fetching dynamic fields
     const obtenerCamposDinamicos = async () => {
       const campos = await obtenerCampos(); // asume que esto devuelve los campos dinámicos
-      console.log(campos);
       setCamposDinamicos(campos.recordset);
     };
     obtenerCamposDinamicos();
@@ -49,10 +48,14 @@ const IGENPacientes = () => {
       const response = await insertarPaciente(formData);
       setSnackbarMessage(`Paciente creado exitosamente. ID: ${response.output.ULTIMO}`);
       setOpenSnackbar(true);
-      setFormData(initialFormData); // Reset form on successful submission
+      const dynamicInitialFormData = camposDinamicos.reduce((acc, campo) => {
+        acc[campo.NOMBRECORTO] = "";
+        return acc;
+      }, {});
+      setFormData({ ...initialFormData, ...dynamicInitialFormData }); // Reset form on successful submission
     } catch (error) {
       console.error("Error:", error);
-      setSnackbarMessage('Error al crear el paciente');
+      setSnackbarMessage('Error al crear el paciente',error);
       setOpenSnackbar(true);
     }
   };
@@ -87,7 +90,7 @@ const IGENPacientes = () => {
           <Button type="submit" fullWidth variant="contained" size="small">Enviar</Button>
           <Button type="button" fullWidth variant="contained" size="small" onClick={handleSearch}>Buscar</Button>
         </Stack>
-        <Snackbar open={openSnackbar} autoHideDuration={6000} onClose={handleCloseSnackbar}>
+        <Snackbar open={openSnackbar} autoHideDuration={1000} onClose={handleCloseSnackbar}>
           <MuiAlert onClose={handleCloseSnackbar} severity="success" elevation={6} variant="filled">
             {snackbarMessage}
           </MuiAlert>
