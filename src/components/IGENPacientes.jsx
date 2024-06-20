@@ -1,3 +1,4 @@
+// Importaciones de Librerías y Componentes
 import React, { useState, useEffect } from "react";
 import { Box, Container, CssBaseline, Stack, Grid, Button, Snackbar } from "@mui/material";
 import DatosDemograficos from "./DatosDemograficos";
@@ -5,26 +6,50 @@ import CamposDinamicos from "./CamposDinamicos";
 import { obtenerCampos } from "../dimensiones/dimensiones.js";
 import { fetchTipoIdOptions, fetchSexoOptions, insertarPaciente, buscarPaciente } from "../utils/api";
 import MuiAlert from '@mui/material/Alert';
-
+import dayjs from 'dayjs';
+// Estado Inicial del Formulario
 const initialFormData = {
-  IdTipoIden: "",
-  numeroID: "",
-  primerApellido: "",
-  segundoApellido: "",
-  primerNombre: "",
-  segundoNombre: "",
-  edad: "",
-  fechaNacimiento: null,
-  sexo: "",
+  IDTIPOIDENTIFICACION: 0,
+  ABREVIATURATIPOIDENTIFICACION: "",
+  NUMEROIDENTIFICACION:0,
+  FECHANACIMIENTO: dayjs(),
+  EDAD:0,
+  NOMBRE1:"",
+  NOMBRE2:"",
+  APELLIDO1:"",
+  APELLIDO2:"",
+  IDSEXO:0,
+  SEXO:"",
+  ACTIVO:0,
+  IDPACIENTE:0,
+  IDENTIDAD:0,
+  IDPLAN:0,
+  D0:"",
+  D1:"",
+  D2:"",
+  D3:"",
+  D4:"",
+  D5:"",
+  D6:"",
+  D7:"",
+  D8:"",
+  D9:"",
+  IDPACIENTEHE:0,
+  GRUPORH:"",
+  HUELLA:"",
 };
 
 const IGENPacientes = () => {
+  // useState: Inicializa estados para opciones de tipo de identificación, opciones de sexo, campos dinámicos, datos del formulario, mensajes de Snackbar y la visibilidad de Snackbar.
   const [tipoIdOptions, setTipoIdOptions] = useState([]);
   const [sexoOptions, setSexoOptions] = useState([]);
   const [camposDinamicos, setCamposDinamicos] = useState([]);
   const [formData, setFormData] = useState(initialFormData);
   const [snackbarMessage, setSnackbarMessage] = useState('');
   const [openSnackbar, setOpenSnackbar] = useState(false);
+  const [birthDate, setBirthDate] = useState(null);
+  const [edad, setAge] = useState("");
+
 
   useEffect(() => {
     fetchTipoIdOptions(setTipoIdOptions);
@@ -39,7 +64,30 @@ const IGENPacientes = () => {
 
   const handleChange = (event) => {
     const { name, value } = event.target;
+    // console.log(name,value,event.target);
     setFormData((prevData) => ({ ...prevData, [name]: value }));
+  };
+
+  const handleBlur = (event) => {
+    const inputAge = event.target.value;
+
+    // Validar que la edad ingresada sea un número positivo
+    if (!isNaN(inputAge) && inputAge >= 0) {
+      setAge(inputAge);
+      // Calcular la fecha de nacimiento basada en la edad ingresada
+      if (inputAge) {
+        const today = dayjs();
+        const birthYear = today.year() - inputAge;
+        const calculatedBirthDate = today.year(birthYear).startOf("year");
+        setBirthDate(calculatedBirthDate);
+      } else {
+        setBirthDate(null);
+      }
+    } else {
+      // Resetear fecha de nacimiento si la edad no es válida
+      setAge("");
+      setBirthDate(null);
+    }
   };
 
   const handleSubmit = async (event) => {
@@ -62,7 +110,11 @@ const IGENPacientes = () => {
 
   const handleSearch = async () => {
     try {
-      const paciente = await buscarPaciente(formData.numeroID);
+      const paciente = await buscarPaciente(formData.NUMEROIDENTIFICACION);
+      const fechaNacimiento = dayjs(paciente.FECHANACIMIENTO,'YYYY-MM-DD','es');
+    if (!fechaNacimiento.isValid()) {
+      throw new Error("Fecha no Valida");
+    }
       setFormData((prevData) => ({
         ...prevData,
         ...paciente,
@@ -80,7 +132,7 @@ const IGENPacientes = () => {
       <Box component="form" onSubmit={handleSubmit} sx={{ mt: 3, "& .MuiTextField-root": { m: 2, width: "100%" } }}>
         <Grid container spacing={8} justifyContent="flex-start">
           <Grid item xs={12} sm={6}>
-            <DatosDemograficos formData={formData} tipoIdOptions={tipoIdOptions} sexoOptions={sexoOptions} onChange={handleChange} />
+            <DatosDemograficos formData={formData} tipoIdOptions={tipoIdOptions} sexoOptions={sexoOptions} onChange={handleChange} onBlur={handleBlur} />
           </Grid>
           <Grid item xs={12} sm={6}>
             <CamposDinamicos campos={camposDinamicos} formData={formData} onChange={handleChange} />

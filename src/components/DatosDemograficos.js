@@ -2,9 +2,10 @@ import React from "react";
 import { Box, Typography, FormControl, InputLabel, MenuItem, Select, TextField } from "@mui/material";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import dayjs from "dayjs";
 
-const DatosDemograficos = ({ formData, tipoIdOptions, sexoOptions, onChange }) => (
+const DatosDemograficos = ({ formData, tipoIdOptions, sexoOptions, onChange, onBlur }) => (
   <Box sx={{ "& .MuiTextField-root": { m: 2, width: "100%" } }}>
     <Typography component="h1" variant="h5">Datos Demográficos</Typography>
     <FormControl fullWidth margin="normal" size="small">
@@ -12,18 +13,18 @@ const DatosDemograficos = ({ formData, tipoIdOptions, sexoOptions, onChange }) =
       <Select
         labelId="tipo-id-label"
         id="tipo-id"
-        name="IdTipoIden"
-        value={formData.IdTipoIden}
+        name="IDTIPOIDENTIFICACION"
+        value={formData.IDTIPOIDENTIFICACION}
         onChange={onChange}
         label="Tipo ID"
       >
-        <MenuItem value=""><em>None</em></MenuItem>
+        <MenuItem value="0"><em>None</em></MenuItem>
         {tipoIdOptions.map((option) => (
           <MenuItem key={option.IDTIPOIDENTIFICACION} value={option.IDTIPOIDENTIFICACION}>{option.NOMBRE}</MenuItem>
         ))}
       </Select>
     </FormControl>
-    {["numeroID", "primerApellido", "segundoApellido", "primerNombre", "segundoNombre"].map((field, index) => (
+    {["NUMEROIDENTIFICACION", "APELLIDO1", "APELLIDO2", "NOMBRE1", "NOMBRE2"].map((field, index) => (
       <TextField
         key={field}
         id={field}
@@ -39,37 +40,39 @@ const DatosDemograficos = ({ formData, tipoIdOptions, sexoOptions, onChange }) =
       />
     ))}
     <TextField
-      key="edad"
-      id="edad"
-      name="edad"
+      key="EDAD"
+      id="EDAD"
+      name="EDAD"
       label="Edad"
       variant="standard"
-      value={formData.edad}
+      value={formData.EDAD}
       onChange={onChange}
+      onBlur={onBlur}
       fullWidth
       margin="normal"
       required
       size="small"
     />
-    <LocalizationProvider dateAdapter={AdapterDayjs}>
+    {/* <LocalizationProvider dateAdapter={AdapterDayjs}>
       <DatePicker
         label="Fecha Nacimiento"
-        value={formData.fechaNacimiento}
-        onChange={(date) => onChange({ target: { value: date, name: "fechaNacimiento" } })}
+        name="FECHANACIMIENTO"
+        value={formData.FECHANACIMIENTO || dayjs()}
+        onChange={(date) => onChange({ target: { value: date, name: "FECHANACIMIENTO" } })}
         renderInput={(params) => <TextField {...params} fullWidth />}
       />
-    </LocalizationProvider>
+    </LocalizationProvider> */}
     <FormControl fullWidth margin="normal" size="small">
       <InputLabel id="sexo-label">Sexo</InputLabel>
       <Select
         labelId="sexo-label"
-        id="sexo"
-        name="sexo"
-        value={formData.sexo}
+        id="IDSEXO"
+        name="IDSEXO"
+        value={formData.IDSEXO}
         onChange={onChange}
         label="Sexo"
       >
-        <MenuItem value=""><em>None</em></MenuItem>
+        <MenuItem value="0"><em>None</em></MenuItem>
         {sexoOptions.map((option) => (
           <MenuItem key={option.IDSEXO} value={option.IDSEXO}>{option.NOMBRE}</MenuItem>
         ))}

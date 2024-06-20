@@ -102,7 +102,6 @@ app.post("/api/pacientes/insertarPaciente", async (req, res) => {
   }
 });
 
-
 app.get("/api/pacientes/getPacientesCriterios", async (req, res) => {
   // const { INNOMBRE1, INNOMBRE2, INAPELLIDO1, INAPELLIDO2, INIDSEXO } = req.params; //COMO PARAMETROS
   const { INNOMBRE1, INNOMBRE2, INAPELLIDO1, INAPELLIDO2, INIDSEXO } =
@@ -127,13 +126,15 @@ app.get("/api/pacientes/getPacientesCriterios", async (req, res) => {
 
 app.get("/api/pacientes/:idPaciente", async (req, res) => {
   const { idPaciente } = req.params;
-
+console.log(req.params);
+console.log(idPaciente);
   try {
     const result = await pool
       .request()
-      .input("INIDPACIENTE", sql.NVarChar, idPaciente || "")
+      .input("INIDPACIENTE", sql.Int, idPaciente || "")
       .execute("GENERAL.SSP_GETPACIENTEBYID");
     res.json(result.recordset);
+    console.log(result);
   } catch (err) {
     console.error("Error en la consulta:", err);
     res.status(500).send("Error en el servidor");

@@ -29,12 +29,11 @@ export const insertarPaciente = async (formData) => {
   }
 };
 
-export const buscarPaciente = async (numeroID) => {
+export const buscarPaciente = async (idPaciente) => {
   try {
-    const response = await axios.get(`${API_BASE_URL}/buscar`, {
-      params: { numeroID },
-    });
-    return response.data.recordset[0];
+    const response = await axios.get(`${API_BASE_URL}/pacientes/${idPaciente}`);
+    // console.log(response);
+    return response.data[0];
   } catch (error) {
     throw new Error("Error searching patient:", error);
   }

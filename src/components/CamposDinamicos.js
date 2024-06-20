@@ -6,12 +6,12 @@ const CamposDinamicos = ({ campos, formData, onChange }) => (
     <Typography component="h4" variant="h5">Dimensiones</Typography>
     {campos.map((field) => (
       <TextField
-        key={field.NOMBRECORTO}
-        name={field.NOMBRECORTO}
+        key={"D" + field.ORDEN}
+        name={"D" + field.ORDEN}
         label={field.NOMBRE}
-        id={"Dimen" + field.ORDEN}
+        id={"D" + field.ORDEN}
         type="text"
-        value={formData[field.NOMBRECORTO] || ""}
+        value={formData["D" + field.ORDEN]}
         onChange={onChange}
         required={field.OBLIGATORIO === true}
         fullWidth
