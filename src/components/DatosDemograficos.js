@@ -53,7 +53,7 @@ const DatosDemograficos = ({ formData, tipoIdOptions, sexoOptions, onChange, onB
       required
       size="small"
     />
-    {/* <LocalizationProvider dateAdapter={AdapterDayjs}>
+    <LocalizationProvider dateAdapter={AdapterDayjs}>
       <DatePicker
         label="Fecha Nacimiento"
         name="FECHANACIMIENTO"
@@ -61,7 +61,7 @@ const DatosDemograficos = ({ formData, tipoIdOptions, sexoOptions, onChange, onB
         onChange={(date) => onChange({ target: { value: date, name: "FECHANACIMIENTO" } })}
         renderInput={(params) => <TextField {...params} fullWidth />}
       />
-    </LocalizationProvider> */}
+    </LocalizationProvider>
     <FormControl fullWidth margin="normal" size="small">
       <InputLabel id="sexo-label">Sexo</InputLabel>
       <Select

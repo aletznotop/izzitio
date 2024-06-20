@@ -47,8 +47,7 @@ const IGENPacientes = () => {
   const [formData, setFormData] = useState(initialFormData);
   const [snackbarMessage, setSnackbarMessage] = useState('');
   const [openSnackbar, setOpenSnackbar] = useState(false);
-  const [birthDate, setBirthDate] = useState(null);
-  const [edad, setAge] = useState("");
+ 
 
 
   useEffect(() => {
@@ -66,28 +65,6 @@ const IGENPacientes = () => {
     const { name, value } = event.target;
     // console.log(name,value,event.target);
     setFormData((prevData) => ({ ...prevData, [name]: value }));
-  };
-
-  const handleBlur = (event) => {
-    const inputAge = event.target.value;
-
-    // Validar que la edad ingresada sea un número positivo
-    if (!isNaN(inputAge) && inputAge >= 0) {
-      setAge(inputAge);
-      // Calcular la fecha de nacimiento basada en la edad ingresada
-      if (inputAge) {
-        const today = dayjs();
-        const birthYear = today.year() - inputAge;
-        const calculatedBirthDate = today.year(birthYear).startOf("year");
-        setBirthDate(calculatedBirthDate);
-      } else {
-        setBirthDate(null);
-      }
-    } else {
-      // Resetear fecha de nacimiento si la edad no es válida
-      setAge("");
-      setBirthDate(null);
-    }
   };
 
   const handleSubmit = async (event) => {
@@ -132,7 +109,7 @@ const IGENPacientes = () => {
       <Box component="form" onSubmit={handleSubmit} sx={{ mt: 3, "& .MuiTextField-root": { m: 2, width: "100%" } }}>
         <Grid container spacing={8} justifyContent="flex-start">
           <Grid item xs={12} sm={6}>
-            <DatosDemograficos formData={formData} tipoIdOptions={tipoIdOptions} sexoOptions={sexoOptions} onChange={handleChange} onBlur={handleBlur} />
+            <DatosDemograficos formData={formData} tipoIdOptions={tipoIdOptions} sexoOptions={sexoOptions} onChange={handleChange} />
           </Grid>
           <Grid item xs={12} sm={6}>
             <CamposDinamicos campos={camposDinamicos} formData={formData} onChange={handleChange} />
