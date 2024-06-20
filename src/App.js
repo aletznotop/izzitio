@@ -7,6 +7,7 @@ import Crud from "./components/Crud";
 import OrderForm from "./components/OrderForm";
 import Payment from "./components/Payment";
 import IGENPacientes from "./components/IGENPacientes";
+import Foto from "./components/foto"
 import "./App.css";
 import styled from "styled-components";
 
@@ -91,6 +92,7 @@ function App() {
               <MenuItem component={Link} to="/payment" onClick={handleCloseBancoSangre}>Mercado Pago</MenuItem>
               <MenuItem component={Link} to="/IGENPacientes" onClick={handleCloseBancoSangre}>Nueva Solicitud</MenuItem>
               <MenuItem component={Link} to="/IBSSeparacionHemocomponentes" onClick={handleCloseBancoSangre}>Separacion Hemocomponentes</MenuItem>
+              <MenuItem component={Link} to="/foto" onClick={handleCloseBancoSangre}>Foto</MenuItem>
             </Menu>
 
             {/* Menú Configuración */}
@@ -127,6 +129,7 @@ function App() {
             <Route path="/dimensiones" element={<div>Dimensiones</div>} /> {/* Añadir componente */}
             <Route path="/hemocomponentes" element={<div>Hemocomponentes</div>} /> {/* Añadir componente */}
             <Route path="/tipobolsas" element={<div>Tipo Bolsas</div>} /> {/* Añadir componente */}
+            <Route path="/foto" element={<Foto/>} /> {/* Añadir componente */}
           </Routes>
         </div>
       </AppContainer>

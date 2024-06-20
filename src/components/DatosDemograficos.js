@@ -57,8 +57,8 @@ const DatosDemograficos = ({ formData, tipoIdOptions, sexoOptions, onChange, onB
       <DatePicker
         label="Fecha Nacimiento"
         name="FECHANACIMIENTO"
-        value={formData.FECHANACIMIENTO || dayjs()}
-        onChange={(date) => onChange({ target: { value: date, name: "FECHANACIMIENTO" } })}
+        value={formData.FECHANACIMIENTO1 || dayjs()}
+        onChange={(date) => onChange({ target: { value: date, name: "FECHANACIMIENTO1" } })}
         renderInput={(params) => <TextField {...params} fullWidth />}
       />
     </LocalizationProvider>

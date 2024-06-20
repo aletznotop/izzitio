@@ -6,6 +6,7 @@ import CamposDinamicos from "./CamposDinamicos";
 import { obtenerCampos } from "../dimensiones/dimensiones.js";
 import { fetchTipoIdOptions, fetchSexoOptions, insertarPaciente, buscarPaciente } from "../utils/api";
 import MuiAlert from '@mui/material/Alert';
+// import Foto from './foto';
 import dayjs from 'dayjs';
 // Estado Inicial del Formulario
 const initialFormData = {
@@ -47,7 +48,7 @@ const IGENPacientes = () => {
   const [formData, setFormData] = useState(initialFormData);
   const [snackbarMessage, setSnackbarMessage] = useState('');
   const [openSnackbar, setOpenSnackbar] = useState(false);
- 
+  // const [photo, setPhoto] = useState(null);
 
 
   useEffect(() => {
@@ -100,6 +101,15 @@ const IGENPacientes = () => {
       console.error("Error in search:", error);
     }
   };
+
+  // const handlePhotoChange = (photoData) => {
+  //   setPhoto(photoData);
+  // };
+
+  // const handleSubmitPhoto = () => {
+  //   // Aquí puedes manejar el envío de la foto junto con otros datos del formulario
+  //   console.log('Foto cargada:', photo);
+  // };
 
   const handleCloseSnackbar = () => setOpenSnackbar(false);
 
