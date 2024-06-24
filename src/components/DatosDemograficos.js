@@ -24,13 +24,13 @@ const DatosDemograficos = ({ formData, tipoIdOptions, sexoOptions, onChange, onB
         ))}
       </Select>
     </FormControl>
-    {["NUMEROIDENTIFICACION", "APELLIDO1", "APELLIDO2", "NOMBRE1", "NOMBRE2"].map((field, index) => (
+    {["NUMEROIDENTIFICACION", "APELLIDO1", "APELLIDO2", "NOMBRE1", "NOMBRE2","SEXOBIOLOGICO"].map((field, index) => (
       <TextField
         key={field}
         id={field}
         name={field}
         label={field.replace(/([A-Z])/g, ' $1')}
-        variant="standard"
+        variant="outlined"
         value={formData[field]}
         onChange={onChange}
         fullWidth

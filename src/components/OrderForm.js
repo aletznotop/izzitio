@@ -1,6 +1,7 @@
 // src/components/OrderForm.js
 import React, { useState } from 'react';
 import '../OrderForm.css'; // Puedes crear este archivo para estilos específicos
+import 'bootstrap/'
 
 function OrderForm() {
   const [order, setOrder] = useState({
@@ -27,17 +28,18 @@ function OrderForm() {
   };
 
   return (
-    <div className="order-form">
+    <div class="mb-3">
       <h2>Orden de Compra</h2>
       <form onSubmit={handleSubmit}>
         <div>
-          <label>Nombre del Cliente:</label>
+          <label class="form-label">Nombre del Cliente:</label>
           <input 
             type="text" 
             name="customerName" 
             value={order.customerName} 
             onChange={handleChange} 
             required 
+            class="form-control form-control-sm"
           />
         </div>
         <div>
@@ -47,6 +49,7 @@ function OrderForm() {
             value={order.serviceType} 
             onChange={handleChange} 
             required
+            class="form-select form-select-sm"
           >
             <option value="">Seleccionar...</option>
             <option value="Fiber Optic">Fibra Óptica</option>
@@ -62,6 +65,7 @@ function OrderForm() {
             value={order.serviceSpeed} 
             onChange={handleChange} 
             required 
+            class="form-control form-control-sm"
           />
         </div>
         <div>
@@ -72,6 +76,7 @@ function OrderForm() {
             value={order.orderDate} 
             onChange={handleChange} 
             required 
+            class="form-control form-control-sm"
           />
         </div>
         <div>
@@ -80,9 +85,10 @@ function OrderForm() {
             name="additionalNotes" 
             value={order.additionalNotes} 
             onChange={handleChange} 
+            class="form-control form-control-sm"
           ></textarea>
         </div>
-        <button type="submit">Enviar Orden</button>
+        <button type="submit" class="btn btn-primary dropdown-toggle">Enviar Orden</button>
       </form>
     </div>
   );

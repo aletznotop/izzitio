@@ -57,40 +57,40 @@ app.post("/api/pacientes/insertarPaciente", async (req, res) => {
   // } = req.query;
 
   // Convertir y validar tipos de datos
-  const idPaciente = parseInt(req.body.numeroID) || 0;
-  const idTipoIdentificacion = parseInt(req.body.IdTipoIden) || 0;
-  const idSexo = parseInt(req.body.sexo) || 0;
+  const idPaciente = parseInt(req.body.IDPACIENTE) || 0;
+  const idTipoIdentificacion = parseInt(req.body.IDTIPOIDENTIFICACION) || 0;
+  const idSexo = parseInt(req.body.IDSEXO) || 0;
   const identidad =  0;
   const idPlan = 0;
   const activo = 1;
   console.log(`Executing stored procedure: INSERTA PACIENTE`);
-  console.log(req.body.fechaNacimiento);
-  console.log(req.body.IdTipoIden);
+  console.log(req.body.FECHANACIMIENTO);
+  console.log(req.body.IDTIPOIDENTIFICACION);
   try {
     const result = await pool
       .request()
       .input("INIDPACIENTE", sql.Int, idPaciente)
       .input("INIDTIPOIDENTIFICACION", sql.SmallInt, idTipoIdentificacion)
       .input("INNUMEROIDENTIFICACION", sql.VarChar(20), identidad || "")
-      .input("INFECHANACIMIENTO", sql.DateTime, req.body.fechaNacimiento ? new Date(req.body.fechaNacimiento) : null)
-      .input("INNOMBRE1", sql.VarChar(50), req.body.primerNombre || "")
-      .input("INNOMBRE2", sql.VarChar(50), req.body.segundoNombre || "")
-      .input("INAPELLIDO1", sql.VarChar(50), req.body.primerApellido || "")
-      .input("INAPELLIDO2", sql.VarChar(50), req.body.segundoApellido || "")
+      .input("INFECHANACIMIENTO", sql.DateTime, req.body.FECHANACIMIENTO ? new Date(req.body.FECHANACIMIENTO) : null)
+      .input("INNOMBRE1", sql.VarChar(50), req.body.NOMBRE1 || "")
+      .input("INNOMBRE2", sql.VarChar(50), req.body.NOMBRE2 || "")
+      .input("INAPELLIDO1", sql.VarChar(50), req.body.APELLIDO1 || "")
+      .input("INAPELLIDO2", sql.VarChar(50), req.body.APELLIDO2 || "")
       .input("INIDSEXO", sql.SmallInt, idSexo)
       .input("INIDENTIDAD", sql.Int, identidad)
       .input("INIDPLAN", sql.Int, idPlan)
       .input("INACTIVO", sql.Bit, activo)
-      .input("IND0", sql.VarChar(sql.MAX), "")
-      .input("IND1", sql.VarChar(sql.MAX), "")
-      .input("IND2", sql.VarChar(sql.MAX), "")
-      .input("IND3", sql.VarChar(sql.MAX), "")
-      .input("IND4", sql.VarChar(sql.MAX), "")
-      .input("IND5", sql.VarChar(sql.MAX), "")
-      .input("IND6", sql.VarChar(sql.MAX), "")
-      .input("IND7", sql.VarChar(sql.MAX), "")
-      .input("IND8", sql.VarChar(sql.MAX), "")
-      .input("IND9", sql.VarChar(sql.MAX), "")
+      .input("IND0", sql.VarChar(sql.MAX), req.body.D0)
+      .input("IND1", sql.VarChar(sql.MAX), req.body.D1)
+      .input("IND2", sql.VarChar(sql.MAX), req.body.D2)
+      .input("IND3", sql.VarChar(sql.MAX), req.body.D3)
+      .input("IND4", sql.VarChar(sql.MAX), req.body.D4)
+      .input("IND5", sql.VarChar(sql.MAX), req.body.D5)
+      .input("IND6", sql.VarChar(sql.MAX), req.body.D6)
+      .input("IND7", sql.VarChar(sql.MAX), req.body.D7)
+      .input("IND8", sql.VarChar(sql.MAX), req.body.D8)
+      .input("IND9", sql.VarChar(sql.MAX), req.body.D9)
       .output("MENSAJE", sql.VarChar(200))
       .output("ULTIMO", sql.Int)
       .execute("GENERAL.SSP_INSPACIENTE");
