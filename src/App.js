@@ -29,7 +29,7 @@ function App() {
       <div className="App">
         <nav className="navbar navbar-expand-lg bg-body-tertiary">
           <div class="container-fluid">
-            <a class="navbar-brand" href="#">
+            <a class="navbar-brand" href="/">
               Cogniti
             </a>
             <button
@@ -46,19 +46,19 @@ function App() {
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
               <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item">
-                  <a class="nav-link active" aria-current="page" href="#">
+                  <a class="nav-link active" aria-current="page" href="/">
                     Banco Sangre
                   </a>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link" href="#">
+                  <a class="nav-link" href="/">
                     Suministros
                   </a>
                 </li>
                 <li class="nav-item dropdown">
                   <a
                     class="nav-link dropdown-toggle"
-                    href="#"
+                    href="/"
                     role="button"
                     data-bs-toggle="dropdown"
                     aria-expanded="false"
@@ -80,9 +80,15 @@ function App() {
                       <hr class="dropdown-divider" />
                     </li>
                     <li>
-                      <a class="dropdown-item" href="#">
+                      <a class="dropdown-item" href="/">
                       <Link to="/payment">Pago</Link>
                       </a>
+                    </li>
+                    <li>
+                      <hr class="dropdown-divider" />
+                    </li>
+                    <li>
+                    <Link to="/XorEncryptor"/> 
                     </li>
                   </ul>
                 </li>
@@ -107,12 +113,9 @@ function App() {
           <Route path="/order" element={<OrderForm />} />
           <Route path="/payment" element={<Payment />} />
           <Route path="/IGENPacientes" element={<IGENPacientes />} />
-          <Route path="/dimensiones" element={<div>Dimensiones</div>} />{" "}
+          <Route path="/dimensiones" element={<div>Dimensiones</div>} />
           {/* Añadir componente */}
-          <Route
-            path="/hemocomponentes"
-            element={<div>Hemocomponentes</div>}
-          />{" "}
+          <Route path="/hemocomponentes" element={<div>Hemocomponentes</div>}/>
           {/* Añadir componente */}
           <Route path="/tipobolsas" element={<div>Tipo Bolsas</div>} />{" "}
           {/* Añadir componente */}

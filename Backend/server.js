@@ -186,6 +186,22 @@ app.get('/api/getDimensionesPaciente', async (req, res) => {
   }
 });
 
+app.get('/api/Login', async(req,res)=>{
+try {
+  const ssp = 'SEGURIDAD.SSP_VALIDAACCESO';
+  const user = req.query.usuario;
+  const password = req.query.pass;
+  console.log('Ejecutando:'+ssp);
+  console.log(user,password);
+  const result = await pool.request().input("INIDUSUARIO",sql.VarChar,user).output("MENSAJE",sql.VarChar(200)).execute(ssp);
+  console.log(result);
+  res.json(result.recordset);
+} catch (error) {
+  console.error("Error en la consulta:", error);
+    res.status(500).send("Error en el servidor");
+}
+});
+
 app.listen(port, () => {
   console.log(`Servidor ejecutándose en http://localhost:${port}`);
 });

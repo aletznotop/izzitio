@@ -22,7 +22,10 @@ export const fetchSexoOptions = async (setSexoOptions) => {
 
 export const insertarPaciente = async (formData) => {
   try {
-    const response = await axios.post(`${API_BASE_URL}/pacientes/insertarPaciente`, formData);
+    const response = await axios.post(
+      `${API_BASE_URL}/pacientes/insertarPaciente`,
+      formData
+    );
     return response.data;
   } catch (error) {
     throw new Error("Error inserting patient:", error);
@@ -36,5 +39,15 @@ export const buscarPaciente = async (idPaciente) => {
     return response.data[0];
   } catch (error) {
     throw new Error("Error searching patient:", error);
+  }
+};
+export const loginCogniti = async (username, password) => {
+  try {
+    const response = await axios.get(`${API_BASE_URL}/Login/?usuario=${username}&pass=${password}`);
+    console.log(response);
+    return response;
+  } catch (error) {
+    console.log(error);
+    throw new Error("Error al Loggearse con las Credenciales, Verifique");
   }
 };
