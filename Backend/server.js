@@ -10,14 +10,15 @@ app.use(express.json());
 
 // Configuración de la base de datos
 const dbConfig = {
-  user: "usrAthenea",
-  password: "usrAthenea",
-  server: "s26.cogniti.com.mx",
-  database: "cogniti_ammtac2023",
+  user: process.env.REACT_APP_DB_USER,
+  password: process.env.REACT_APP_DB_PASSWORD,
+  server: process.env.REACT_APP_DB_SERVER,
+  database: process.env.REACT_APP_DB_DATABASE,
   options: {
     encrypt: false,
   },
 };
+console.log(process.env.REACT_APP_DB_USER);
 
 // Conexión a la base de datos
 let pool;
