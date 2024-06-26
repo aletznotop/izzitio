@@ -18,7 +18,6 @@ const dbConfig = {
     encrypt: false,
   },
 };
-console.log(process.env.REACT_APP_DB_USER);
 
 // Conexión a la base de datos
 let pool;
